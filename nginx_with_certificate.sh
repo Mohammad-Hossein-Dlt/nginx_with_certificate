@@ -99,14 +99,14 @@ x5JuyV14hD/WA+acV5pB4M4=
 -----END PRIVATE KEY-----"
 
 # If you have an intermediate chain file, assign its content here; otherwise, leave this empty
-CHAIN_CONTENT="-----BEGIN CERTIFICATE-----
-... Your chain file content goes here ...
------END CERTIFICATE-----"
+#CHAIN_CONTENT="-----BEGIN CERTIFICATE-----
+#... Your chain file content goes here ...
+#-----END CERTIFICATE-----"
 
 # Paths where the certificate files will be saved
 CERT_PATH="/etc/ssl/certs/your_cert.crt"
 KEY_PATH="/etc/ssl/private/your_key.key"
-CHAIN_PATH="/etc/ssl/certs/your_chain.pem"
+#CHAIN_PATH="/etc/ssl/certs/your_chain.pem"
 
 # Create necessary directories if they do not exist
 mkdir -p /etc/ssl/certs
@@ -115,9 +115,9 @@ mkdir -p /etc/ssl/private
 # Save the certificate, private key, and chain file contents to their respective paths
 echo "$CERTIFICATE_CONTENT" > "$CERT_PATH"
 echo "$PRIVATE_KEY_CONTENT" > "$KEY_PATH"
-if [ -n "$CHAIN_CONTENT" ]; then
-    echo "$CHAIN_CONTENT" > "$CHAIN_PATH"
-fi
+#if [ -n "$CHAIN_CONTENT" ]; then
+#    echo "$CHAIN_CONTENT" > "$CHAIN_PATH"
+#fi
 
 ########################################
 # Nginx Configuration for Reverse Proxy with SSL
@@ -149,18 +149,17 @@ server {
 EOF
 
 # Add chain file configuration if chain content exists
-if [ -n "$CHAIN_CONTENT" ]; then
-cat >> "$CONFIG_FILE" <<EOF
-    ssl_trusted_certificate ${CHAIN_PATH};
-EOF
-fi
+#if [ -n "$CHAIN_CONTENT" ]; then
+#cat >> "$CONFIG_FILE" <<EOF
+#    ssl_trusted_certificate ${CHAIN_PATH};
+#EOF
+#fi
 
 cat >> "$CONFIG_FILE" <<EOF
 
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
 
-    # Reverse proxy settings: forward all requests to the backend server(s)
     location / {
         proxy_pass http://load_balancer;
         proxy_set_header Host \$host;
