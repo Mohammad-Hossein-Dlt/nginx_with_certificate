@@ -20,10 +20,12 @@ if [ -x "$(command -v nginx)" ]; then
     systemctl stop nginx 2>/dev/null
     colored_text "32" "Purging nginx..."
     apt-get purge -y nginx
-    colored_text "32" "Autoremoving packages..."
+    colored_text "32" "Auto removing packages..."
     apt-get autoremove -y
     colored_text "32" "Removing nginx directory..."
     rm -rf /etc/nginx
+    rm -rf /etc/ssl/certs/public_cert.crt
+    rm -rf /etc/ssl/private/private_key.key
 fi
 
 # Update the package list
@@ -104,8 +106,8 @@ x5JuyV14hD/WA+acV5pB4M4=
 #-----END CERTIFICATE-----"
 
 # Paths where the certificate files will be saved
-CERT_PATH="/etc/ssl/certs/your_cert.crt"
-KEY_PATH="/etc/ssl/private/your_key.key"
+CERT_PATH="/etc/ssl/certs/public_cert.crt"
+KEY_PATH="/etc/ssl/private/private_key.key"
 #CHAIN_PATH="/etc/ssl/certs/your_chain.pem"
 
 # Create necessary directories if they do not exist
